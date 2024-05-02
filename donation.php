@@ -106,12 +106,19 @@ include 'includes/scripts.php';
                                 </thead>
                                 <tbody>
                                     <?php foreach ($paymentsData as $payment) { ?>
+                                        <?php
+                                        $dateTime = new DateTime($payment['payment_date']);
+                                        $formattedDate = $dateTime->format('M d, Y');
+
+                                        $formattedAmount = '₱' . number_format($payment['amount'], 2, '.', ',');
+                                        ?>
+
                                         <tr>
                                             <td><?php echo $payment['id']; ?></td>
                                             <td><?php echo $payment['fullname']; ?></td>
                                             <td><?php echo $payment['address']; ?></td>
-                                            <td><?php echo $payment['amount']; ?></td>
-                                            <td><?php echo $payment['payment_date']; ?></td>
+                                            <td><?php echo $formattedAmount; ?></td>
+                                            <td><?php echo $formattedDate; ?></td>
                                             <td><?php echo $payment['contributions']; ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPaymentModal<?php echo $payment['id']; ?>">
