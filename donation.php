@@ -3,7 +3,6 @@
     $title = "dashboard";
     include 'includes/header.php';
     include 'includes/navbar.php';
-    
     include 'includes/scripts.php';
 
 ?>
@@ -262,27 +261,7 @@ function generatePDF(paymentId) {
                     </div>
                 </div>
 
-                <?php
-                    if (isset($_POST['addPayments'])) {
-                        $fullname = $_POST['fullname'];
-                        $address = $_POST['address'];
-                        $amount = $_POST['amount'];
-                        $paymentDate = $_POST['payment_date'];
-                        $contributions = $_POST['contributions'];
-
-                        // Prepare the SQL statement with placeholders
-                        $sql = "INSERT INTO `payments` (`fullname`, `address`, `amount`, `payment_date`, `contributions`) VALUES (?, ?, ?, ?, ?)";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("ssdss", $fullname, $address, $amount, $paymentDate, $contributions);
-
-                        // Execute the statement
-                        if ($stmt->execute()) {
-                            echo "<script>alert('New payment added successfully.'); window.location.href='payment.php';</script>";
-                        } else {
-                            echo "<script>alert('Error adding new payment.'); window.location.href='payment.php';</script>";
-                        }
-                    }
-                ?>
+                
 
 </body>
 <!-- Include the necessary JavaScript file -->
