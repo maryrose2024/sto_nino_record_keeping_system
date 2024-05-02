@@ -154,7 +154,7 @@ function generatePDF(paymentId) {
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <form method="POST" action="payment_edit.php">
+                                        <form action="" method="POST">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="editPaymentModalLabel<?= $payment['id'] ?>">
                                                     Edit Donation
@@ -194,7 +194,7 @@ function generatePDF(paymentId) {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" name="editPayment">Save
+                                        <button type="submit" class="btn btn-primary" name="editDonation">Save
                                             Changes</button>
                                     </div>
                                     </form>
@@ -202,6 +202,44 @@ function generatePDF(paymentId) {
                             </div>
                         </div>
                         <?php } ?>
+
+                        <?php
+                            if (isset($_POST['editDonation'])) {
+                                $payment_id = isset($_POST['payment_id']) ? intval($_POST['payment_id']) : 0;
+                                $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
+                                $address = isset($_POST['address']) ? trim($_POST['address']) : '';
+
+                                if (empty($fullname) || empty($address) || $payment_id === 0) {
+                                    echo "<script>alert('Invalid data. Please ensure all fields are filled.'); window.location.href = 'donation.php';</script>";
+                                    exit();
+                                }
+
+                                $sql = "UPDATE `payments` SET `fullname` = ?, `address` = ? WHERE `id` = ?";
+                                $stmt = $conn->prepare($sql);
+
+                                if ($stmt === false) {
+                                    echo "<script>alert('Error preparing SQL statement.'); window.location.href = 'donation.php';</script>";
+                                    exit();
+                                }
+
+                                $stmt->bind_param("ssi", $fullname, $address, $payment_id);
+
+                                if ($stmt->execute()) {
+                                    echo "<script>
+                                            alert('Payment record updated successfully.');
+                                            window.location.href = 'donation.php';
+                                        </script>";
+                                    exit();
+                                } else {
+                                    echo "<script>
+                                            alert('Error updating payment record: {$stmt->error}.');
+                                            window.location.href = 'donation.php';
+                                        </script>";
+                                    exit();
+                                }
+                            }
+                        ?>
+
 
                         <!-- Add Payments Modal -->
                         <div class="modal fade" id="addPaymentsModal" tabindex="-1"
@@ -238,14 +276,14 @@ function generatePDF(paymentId) {
                                             <div class="mb-3">
                                                 <label for="contributions" class="form-label">Contributions:</label>
                                                     <select class="form-select" id="contributions" name="contributions" required>
-                                                        <option value="Married">Mass /Misa</option>
-                                                        <option value="Married">Blessing</option>
-                                                        <option value="Single">Christening /Binyag</option>
-                                                        <option value="Married">Communion /Komunyon</option>
-                                                        <option value="Married">Confirmation /Kumpil</option>
-                                                        <option value="Married">Marriage /Kasal</option>
-                                                        <option value="Married">Conversion /Konbersiyon</option>
-                                                        <option value="Married">Funeral /Libing</option>
+                                                        <option value="Mass">Mass /Misa</option>
+                                                        <option value="Blessing">Blessing</option>
+                                                        <option value="Christening">Christening /Binyag</option>
+                                                        <option value="Communion">Communion /Komunyon</option>
+                                                        <option value="Kumpil">Confirmation /Kumpil</option>
+                                                        <option value="Marriage">Marriage /Kasal</option>
+                                                        <option value="Conversion">Conversion /Konbersiyon</option>
+                                                        <option value="Funeral">Funeral /Libing</option>
                                                     </select>
                                                 
                                             </div>
@@ -261,7 +299,7 @@ function generatePDF(paymentId) {
                         </div>
                     </div>
                 </div>
-
+                            
                 <?php
                     if (isset($_POST['addPayments'])) {
                         $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
