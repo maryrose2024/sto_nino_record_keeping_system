@@ -47,6 +47,10 @@ if (isset($_POST['submit'])) {
 }
 
 
+if (isset($_SESSION['loggedin'])) {
+    echo '<script>window.location.href = "index.php";</script>';
+    exit;
+}
 ?>
 
 <body style="background: url('img/login.jpg') no-repeat center/cover;" class="vh-100 w-100">
