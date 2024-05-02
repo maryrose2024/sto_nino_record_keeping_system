@@ -3,6 +3,7 @@
     $title = "dashboard";
     include 'includes/header.php';
     include 'includes/navbar.php';
+    
     include 'includes/scripts.php';
 
 ?>
@@ -175,19 +176,19 @@ function generatePDF(paymentId) {
                                             <div class="mb-3">
                                                 <label for="amount" class="form-label">Amount:</label>
                                                 <input type="number" class="form-control" id="amount" name="amount"
-                                                    value="<?= $payment['amount'] ?>" step="0.01" required>
+                                                    value="<?= $payment['amount'] ?>" step="0.01" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="payment_date" class="form-label">Date:</label>
                                                 <input type="date" class="form-control" id="payment_date"
                                                     name="payment_date" value="<?= $payment['payment_date'] ?>"
-                                                    required>
+                                                    readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="contributions" class="form-label">Contributions:</label>
                                                 <input type="text" class="form-control" id="contributions"
                                                     name="contributions" value="<?= $payment['contributions'] ?>"
-                                                    required>
+                                                    readonly>
                                             </div>
                                     </div>
                                     <div class="modal-footer">
@@ -229,14 +230,14 @@ function generatePDF(paymentId) {
                                                 <input type="number" class="form-control" id="amount" name="amount"
                                                     step="0.01" required>
                                             </div>
-                                            <div class="mb-3">
+                                            <!-- <div class="mb-3">
                                                 <label for="payment_date" class="form-label">Payment Date:</label>
                                                 <input type="date" class="form-control" id="payment_date"
                                                     name="payment_date" required>
-                                            </div>
+                                            </div> -->
                                             <div class="mb-3">
                                                 <label for="contributions" class="form-label">Contributions:</label>
-                                                    <select class="form-select" id="status" name="status" required>
+                                                    <select class="form-select" id="contributions" name="contributions" required>
                                                         <option value="Married">Mass /Misa</option>
                                                         <option value="Married">Blessing</option>
                                                         <option value="Single">Christening /Binyag</option>
@@ -261,7 +262,40 @@ function generatePDF(paymentId) {
                     </div>
                 </div>
 
-                
+                <?php
+                    if (isset($_POST['addPayments'])) {
+                        $fullname = isset($_POST['fullname']) ? trim($_POST['fullname']) : '';
+                        $address = isset($_POST['address']) ? trim($_POST['address']) : '';
+                        $amount = isset($_POST['amount']) ? trim($_POST['amount']) : '';
+                        $contributions = isset($_POST['contributions']) ? trim($_POST['contributions']) : '';
+
+                        $sql = "INSERT INTO `payments` (`fullname`, `address`, `amount`, `payment_date`, `contributions`) VALUES (?, ?, ?, CURRENT_DATE, ?)";
+                        $stmt = $conn->prepare($sql);
+                    
+                        // Check if the statement preparation succeeded
+                        if ($stmt === false) {
+                            echo "<script>alert('Error preparing SQL statement.');</script>";
+                            header('Location: donation.php');
+                            exit();
+                        }
+
+                        $stmt->bind_param("ssds", $fullname, $address, $amount, $contributions);
+
+                        if ($stmt->execute()) {
+                            echo "<script>
+                                    alert('New payment added successfully.');
+                                    window.location.href = 'donation.php';
+                                  </script>";
+                            exit();
+                        } else {
+                            echo "<script>
+                                    alert('Error adding new payment: {$stmt->error}.');
+                                    window.location.href = 'donation.php';
+                                  </script>";
+                            exit(); 
+                        }
+                    }
+                ?>
 
 </body>
 <!-- Include the necessary JavaScript file -->
