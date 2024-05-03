@@ -134,7 +134,7 @@
 
                                     <?php 
                                         $user_id = fetchUserName($conn, $sched['added_by']);
-                                    ?> 
+                                    ?>
                                     <tr>
                                         <td><?php echo $rowNumber; ?></td>
                                         <td>
@@ -151,11 +151,46 @@
                                             <span class="fs-5 fw-bold"><?php  echo $sched['address']; ?></span>
                                         </td>
                                         <td><?php echo  $user_id; ?></td>
-                                        <td>
+                                        <td class="d-flex gap-2">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#eventModal<?php echo $sched['id']; ?>">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteSchedModal">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="deleteSchedModal" tabindex="-1"
+                                                aria-labelledby="deleteSchedModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Schedule</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete the schedule?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <form action="delete_sched.php" method="POST">
+                                                                <input type="hidden" name="sched_id"
+                                                                    value="<?= $sched['id'] ?>">
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
                                         </td>
                                     </tr>
                                     <?php 
@@ -171,8 +206,8 @@
                     </div> -->
                 </div>
             </div>
-            
-            
+
+
             <!-- Modal for event details, edit, and delete -->
             <?php foreach ($schedData as $sched) { ?>
             <?php 
@@ -180,7 +215,8 @@
                 $dateTime = new DateTime($schedDate);
                 $formattedDate = $dateTime->format('F d, Y');
             ?>
-            <div class="modal fade" id="eventModal<?= $sched['id'] ?>" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal fade" id="eventModal<?= $sched['id'] ?>" tabindex="-1" aria-labelledby="eventModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -200,8 +236,12 @@
                             <p> <?= $sched['client_name']?></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="deleteEventButton">Delete</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                            <form action="delete_sched.php" method="POST">
+                                <input type="hidden" name="sched_id" value="<?= $sched['id'] ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                aria-label="Close">Close</button>
                         </div>
                     </div>
                 </div>
