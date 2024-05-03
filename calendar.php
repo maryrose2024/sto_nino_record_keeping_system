@@ -194,7 +194,6 @@ $(document).ready(function() {
             method: 'GET'
         },
         eventClick: function(info) {
-            console.log('CLICKINGGGss')
             let event = info.event;
             let modal = new bootstrap.Modal($('#eventModal'), {
                 keyboard: true
