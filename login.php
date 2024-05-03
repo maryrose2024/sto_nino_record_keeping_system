@@ -25,7 +25,6 @@ if (isset($_POST['submit'])) {
         // if ($row["password"] == $password) {
         if (password_verify($password, $row['password'])) {
 
-
             $_SESSION['loggedin'] = true;
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];

@@ -211,21 +211,20 @@
 
 <script>
 $(document).ready(function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         events: {
             url: 'schedules_appointment.php',
             method: 'POST'
         },
         eventClick: function(info) {
-            var event = info.event;
-            var modal = new bootstrap.Modal($('#eventModal'), {
+            let event = info.event;
+            let modal = new bootstrap.Modal($('#eventModal'), {
                 keyboard: true
             });
 
             if (event) {
-                // Display event details in the modal
                 $('#eventTitle').html(event.title);
                 $('#eventName').html(event.title);
                 $('#eventTime').html(event.startStr);
@@ -287,14 +286,14 @@ $(document).ready(function() {
             method: 'GET',
             dataType: 'json',
             success: function(response) {
-                var scheduleList = $('#scheduleList');
+                let scheduleList = $('#scheduleList');
 
                 // Clear the existing list
                 scheduleList.empty();
 
                 // Loop through the schedule data and populate the list
                 $.each(response, function(index, schedule) {
-                    var listItem = $('<li>').html('<strong>' + schedule.eventName +
+                    let listItem = $('<li>').html('<strong>' + schedule.eventName +
                         ':</strong> ' + schedule.datetime);
                     scheduleList.append(listItem);
                 });

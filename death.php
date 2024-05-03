@@ -10,72 +10,9 @@ include 'includes/scripts.php';
 <!-- Content Wrapper -->
 
 <div id="content-wrapper" class="d-flex flex-column">
-
+    <?php include('header_nav.php');?>
     <!-- Main Content -->
     <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
-
-            <!-- Topbar Search Display Only-->
-            <input class="form-control" type="text" placeholder="                                                                                  
-            Sto. Niño Parish Record-Keeping Information System" aria-label="Disabled input example" disabled readonly>
-            
-
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown">
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 large">Mary Rose</span>
-                        <img class="img-profile rounded-circle mr-2" src="img/logo.png">
-                    </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="profile.php">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                            Profile
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-
-            </ul>
-
-        </nav>
-
         <?php
         function fetchData($conn, $table)
         {
@@ -106,7 +43,7 @@ include 'includes/scripts.php';
                 <hr>
                 <div class="row mb-3">
                     <div class="col">
-                    <input class="form-control" type="text" id="search2" placeholder="Search...">
+                        <input class="form-control" type="text" id="search2" placeholder="Search...">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
@@ -129,44 +66,45 @@ include 'includes/scripts.php';
                                 </thead>
                                 <tbody>
                                     <?php foreach ($deathData as $deathRecord) { ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $deathRecord['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $deathRecord['record_no']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $deathRecord['name_of_deceased']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $deathRecord['name1']; ?>- <?php echo $deathRecord['name2']; ?>- <?php echo $deathRecord['name3']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $deathRecord['status']; ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#editDeathModal<?php echo $deathRecord['id']; ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <a href="death_info.php?id=<?php echo $deathRecord['id']; ?>"
-                                                    class="btn btn-warning">
-                                                    <i class="fas fa-eye"></i></a>
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="window.open('form/death_cert.php?id=<?php echo $deathRecord['id']; ?>', '_blank');">
-                                                    <i class="fas fa-print"></i>
-                                                </button>
+                                    <tr>
+                                        <td>
+                                            <?php echo $deathRecord['id']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $deathRecord['record_no']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $deathRecord['name_of_deceased']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $deathRecord['name1']; ?>- <?php echo $deathRecord['name2']; ?>-
+                                            <?php echo $deathRecord['name3']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $deathRecord['status']; ?>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editDeathModal<?php echo $deathRecord['id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <a href="death_info.php?id=<?php echo $deathRecord['id']; ?>"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-eye"></i></a>
+                                            <button type="button" class="btn btn-secondary"
+                                                onclick="window.open('form/death_cert.php?id=<?php echo $deathRecord['id']; ?>', '_blank');">
+                                                <i class="fas fa-print"></i>
+                                            </button>
 
-                                                <script>
-                                                    // Enable tooltips using JavaScript (assuming you are using Bootstrap)
-                                                    $(document).ready(function () {
-                                                        $('[data-bs-toggle="tooltip"]').tooltip();
-                                                    });
-                                                </script>
+                                            <script>
+                                            // Enable tooltips using JavaScript (assuming you are using Bootstrap)
+                                            $(document).ready(function() {
+                                                $('[data-bs-toggle="tooltip"]').tooltip();
+                                            });
+                                            </script>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -181,10 +119,10 @@ include 'includes/scripts.php';
             ?>
 
             <script>
-                function generatePDF(memberId) {
-                    // Pass the member's ID to the PDF generation script
-                    window.open('generate_pdf.php?id=' + memberId, '_blank');
-                }
+            function generatePDF(memberId) {
+                // Pass the member's ID to the PDF generation script
+                window.open('generate_pdf.php?id=' + memberId, '_blank');
+            }
             </script>
             </tbody>
             </table>
@@ -195,79 +133,92 @@ include 'includes/scripts.php';
 </div>
 
 <?php foreach ($deathData as $death) { ?>
-    <div class="modal fade" id="editDeathModal<?= $death['id'] ?>" tabindex="-1"
-        aria-labelledby="editDeathModalLabel<?= $death['id'] ?>" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bolder" id="editDeathModalLabel<?= $death['id'] ?>">Edit Death Record</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="death_edit.php">
-                        <input type="hidden" name="death_id" value="<?= $death['id'] ?>">
+<div class="modal fade" id="editDeathModal<?= $death['id'] ?>" tabindex="-1"
+    aria-labelledby="editDeathModalLabel<?= $death['id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bolder" id="editDeathModalLabel<?= $death['id'] ?>">Edit Death Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="death_edit.php">
+                    <input type="hidden" name="death_id" value="<?= $death['id'] ?>">
 
-                        <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="record_no" class="form-label">Record No:</label>
-                                <input type="text" class="form-control" id="record_no" name="record_no" value="<?= $death['record_no'] ?>" required>
+                                <input type="text" class="form-control" id="record_no" name="record_no"
+                                    value="<?= $death['record_no'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="barrio" class="form-label">Barrio:</label>
-                                <input type="text" class="form-control" id="barrio" name="barrio" value="<?= $death['barrio'] ?>" required>
+                                <input type="text" class="form-control" id="barrio" name="barrio"
+                                    value="<?= $death['barrio'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="book" class="form-label">Book No:</label>
-                                <input type="text" class="form-control" id="book" name="book" value="<?= $death['book'] ?>" required>
+                                <input type="text" class="form-control" id="book" name="book"
+                                    value="<?= $death['book'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="page" class="form-label">Page No:</label>
-                                <input type="text" class="form-control" id="page" name="page" value="<?= $death['page'] ?>" required>
+                                <input type="text" class="form-control" id="page" name="page"
+                                    value="<?= $death['page'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="name_of_deceased" class="form-label">Name of Deceased:</label>
-                                <input type="text" class="form-control" id="name_of_deceased" name="name_of_deceased" value="<?= $death['name_of_deceased'] ?>"
-                                    required>
+                                <input type="text" class="form-control" id="name_of_deceased" name="name_of_deceased"
+                                    value="<?= $death['name_of_deceased'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="death" class="form-label">Cause of Death:</label>
-                                <input type="text" class="form-control" id="death" name="death" value="<?= $death['death'] ?>" required>
+                                <input type="text" class="form-control" id="death" name="death"
+                                    value="<?= $death['death'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="spouse" class="form-label">Spouse:</label>
-                                <input type="text" class="form-control" id="spouse" name="spouse" value="<?= $death['spouse'] ?>" required>
+                                <input type="text" class="form-control" id="spouse" name="spouse"
+                                    value="<?= $death['spouse'] ?>" required>
                             </div>
                         </div>
                         <!-- Right column -->
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="line" class="form-label">Line No:</label>
-                                <input type="text" class="form-control" id="line" name="line" value="<?= $death['line'] ?>" required>
+                                <input type="text" class="form-control" id="line" name="line"
+                                    value="<?= $death['line'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="residence" class="form-label">Residence:</label>
-                                <input type="text" class="form-control" id="residence" name="residence" value="<?= $death['residence'] ?>" required>
+                                <input type="text" class="form-control" id="residence" name="residence"
+                                    value="<?= $death['residence'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="municipal" class="form-label">Municipal:</label>
-                                <input type="text" class="form-control" id="municipal" name="municipal" value="<?= $death['municipal'] ?>" required>
+                                <input type="text" class="form-control" id="municipal" name="municipal"
+                                    value="<?= $death['municipal'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="province" class="form-label">Province:</label>
-                                <input type="text" class="form-control" id="province" name="province" value="<?= $death['province'] ?>" required>
+                                <input type="text" class="form-control" id="province" name="province"
+                                    value="<?= $death['province'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="name_of_parents" class="form-label">Name of Mother:</label>
-                                <input type="text" class="form-control" id="name_of_parents" name="name1" value="<?= $death['name1'] ?>" required>
+                                <input type="text" class="form-control" id="name_of_parents" name="name1"
+                                    value="<?= $death['name1'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="name_of_parents" class="form-label">Name of Father:</label>
-                                <input type="text" class="form-control" id="name_of_parents" name="name2" value="<?= $death['name2'] ?>" required>
+                                <input type="text" class="form-control" id="name_of_parents" name="name2"
+                                    value="<?= $death['name2'] ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="age" class="form-label">Age:</label>
-                                <input type="text" class="form-control" id="age" name="age" value="<?= $death['age'] ?>" required>
+                                <input type="text" class="form-control" id="age" name="age" value="<?= $death['age'] ?>"
+                                    required>
                             </div>
                         </div>
                     </div>
@@ -275,21 +226,21 @@ include 'includes/scripts.php';
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="date_of_death" class="form-label">Date of Death:</label>
-                                <input type="date" class="form-control" id="date_of_death" name="date_of_death" value="<?= $death['date_of_death'] ?>"
-                                    required>
+                                <input type="date" class="form-control" id="date_of_death" name="date_of_death"
+                                    value="<?= $death['date_of_death'] ?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="date_of_burial" class="form-label">Date of Burial:</label>
-                                <input type="date" class="form-control" id="date_of_burial" name="date_of_burial" value="<?= $death['date_of_burial'] ?>"
-                                    required>
+                                <input type="date" class="form-control" id="date_of_burial" name="date_of_burial"
+                                    value="<?= $death['date_of_burial'] ?>" required>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="status" class="form-label">Status:</label>
-                        <select class="form-select" id="status" name="status" required >
+                        <select class="form-select" id="status" name="status" required>
                             <option <?php echo ($death == 'Single') ? 'selected' : ''; ?>>Single</option>
                             <option <?php echo ($death == 'Married') ? 'selected' : ''; ?>>Married</option>
                             <option <?php echo ($death == 'Widowed') ? 'selected' : ''; ?>>Widowed</option>
@@ -297,29 +248,32 @@ include 'includes/scripts.php';
                     </div>
                     <div class="mb-3">
                         <label for="name3" class="form-label">Name of Wife/Husband for Widowed Only:</label>
-                        <input type="text" class="form-control" id="name3" name="name3"  value="<?= $death['name3'] ?>">
+                        <input type="text" class="form-control" id="name3" name="name3" value="<?= $death['name3'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="place_of_burial" class="form-label">Place of Burial:</label>
-                        <input type="text" class="form-control" id="place_of_burial" name="place_of_burial"  value="<?= $death['place_of_burial'] ?>" required>
+                        <input type="text" class="form-control" id="place_of_burial" name="place_of_burial"
+                            value="<?= $death['place_of_burial'] ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="sacraments" class="form-label">Sacraments:</label>
-                        <input type="text" class="form-control" id="sacraments" name="sacraments"  value="<?= $death['sacraments'] ?>" required>
+                        <input type="text" class="form-control" id="sacraments" name="sacraments"
+                            value="<?= $death['sacraments'] ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="name_of_priest" class="form-label">Name of Priest:</label>
-                        <input type="text" class="form-control" id="name_of_priest" name="name_of_priest"  value="<?= $death['name_of_priest'] ?>" required>
+                        <input type="text" class="form-control" id="name_of_priest" name="name_of_priest"
+                            value="<?= $death['name_of_priest'] ?>" required>
                     </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="editDeathRecord">Save Changes</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="editDeathRecord">Save Changes</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
+</div>
 <?php } ?>
 
 
@@ -420,7 +374,7 @@ include 'includes/scripts.php';
                     <!-- Status and other fields -->
                     <div class="mb-3">
                         <label for="status" class="form-label">Status:</label>
-                        <select class="form-select" id="status" name="status" required >
+                        <select class="form-select" id="status" name="status" required>
                             <option value="Single">Single</option>
                             <option value="Married">Married</option>
                             <option value="Widowed">Widowed</option>
@@ -428,7 +382,7 @@ include 'includes/scripts.php';
                     </div>
                     <div class="mb-3">
                         <label for="name3" class="form-label">Name of Wife/Husband for Widowed Only:</label>
-                        <input type="text" class="form-control" id="name3" value= " " name="name3">
+                        <input type="text" class="form-control" id="name3" value=" " name="name3">
                     </div>
                     <div class="mb-3">
                         <label for="place_of_burial" class="form-label">Place of Burial:</label>
@@ -484,25 +438,25 @@ if (isset($_POST['addDeathRecord'])) {
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+</script>
 <script src="js/jquery.min.js"></script>
 <script src="js/datatables-simple.js"></script>
 
 
 <script>
-    $(document).ready(function() {
-        $('#search2').on('keyup', function() {
-            var searchText = $(this).val().toLowerCase();
-            $('table tbody tr').each(function() {
-                var rowText = $(this).text().toLowerCase();
-                if (rowText.indexOf(searchText) === -1) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
+$(document).ready(function() {
+    $('#search2').on('keyup', function() {
+        var searchText = $(this).val().toLowerCase();
+        $('table tbody tr').each(function() {
+            var rowText = $(this).text().toLowerCase();
+            if (rowText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
         });
     });
+});
 </script>
 
 </body>

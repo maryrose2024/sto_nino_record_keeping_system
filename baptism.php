@@ -11,73 +11,9 @@ include 'includes/scripts.php';
 
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
-
+    <?php include('header_nav.php');?>
     <!-- Main Content -->
     <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
-
-          
-        <!-- Topbar Search Display Only-->
-        <input class="form-control" type="text" placeholder="                                                                                  
-        Sto. Niño Parish Record-Keeping Information System" aria-label="Disabled input example" disabled readonly>
-            
-        <!-- Topbar Navbar -->
-        <ul class="navbar-nav ml-auto">
-
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown">
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-800 large">Mary Rose</span>
-                    <img class="img-profile rounded-circle mr-2"
-                        src="img/logo.png">
-                        </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="profile.php">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                            Profile
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-
-            </ul>
-
-        </nav>
-
         <?php
         function fetchData($conn, $table)
         {
@@ -102,17 +38,17 @@ include 'includes/scripts.php';
         $baptismData = fetchData($conn, 'Baptism');
         ?>
         <!-- Topbar Search -->
-       
+
 
         <!-- Main Content -->
-        
+
         <div class="col-12 col-xl-12">
             <div class="col mt-4">
                 <h1 class="mb-2 text-uppercase fw-bolder">Baptism Records</h1>
                 <hr>
                 <div class="row mb-3">
                     <div class="col">
-                    <input class="form-control" type="text" id="search" placeholder="Search...">
+                        <input class="form-control" type="text" id="search" placeholder="Search...">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
@@ -123,7 +59,7 @@ include 'includes/scripts.php';
                 <div class="row">
                     <div class="col">
                         <div class="table-responsive">
-                        <table style="background-color: white;" class="table table-bordered">
+                            <table style="background-color: white;" class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -137,40 +73,40 @@ include 'includes/scripts.php';
                                 </thead>
                                 <tbody>
                                     <?php foreach ($baptismData as $baptismRecord) { ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $baptismRecord['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $baptismRecord['record_no']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $baptismRecord['name']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $baptismRecord['date_of_birth']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $baptismRecord['father_name']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $baptismRecord['mother_name']; ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#editBaptismModal<?php echo $baptismRecord['id']; ?>">
-                                                    <i class="fas fa-edit"></i></button>
-                                                <a href="baptism_info.php?id=<?php echo $baptismRecord['id']; ?>"
-                                                    class="btn btn-warning">
-                                                    <i class="fas fa-eye"></i></a></a>
-                                                <a href='form/baptism_cert.php?id=<?= htmlspecialchars($baptismRecord["id"]) ?>'
-                                                    class='btn btn-secondary' target='_blank'>
-                                                    <i class='fas fa-print'></i>
-                                                </a>
-                                                </button>
+                                    <tr>
+                                        <td>
+                                            <?php echo $baptismRecord['id']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $baptismRecord['record_no']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $baptismRecord['name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $baptismRecord['date_of_birth']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $baptismRecord['father_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $baptismRecord['mother_name']; ?>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editBaptismModal<?php echo $baptismRecord['id']; ?>">
+                                                <i class="fas fa-edit"></i></button>
+                                            <a href="baptism_info.php?id=<?php echo $baptismRecord['id']; ?>"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-eye"></i></a></a>
+                                            <a href='form/baptism_cert.php?id=<?= htmlspecialchars($baptismRecord["id"]) ?>'
+                                                class='btn btn-secondary' target='_blank'>
+                                                <i class='fas fa-print'></i>
+                                            </a>
+                                            </button>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -186,13 +122,12 @@ include 'includes/scripts.php';
         ?>
 
         <script>
-            function generatePDF(memberId) {
-                // Pass the member's ID to the PDF generation script
-                window.open('baptism_pdf.php?id=' + memberId, '_blank');
-            }
-
+        function generatePDF(memberId) {
+            // Pass the member's ID to the PDF generation script
+            window.open('baptism_pdf.php?id=' + memberId, '_blank');
+        }
         </script>
-  
+
 
         </tbody>
         </table>
@@ -203,131 +138,131 @@ include 'includes/scripts.php';
 </div>
 
 <?php foreach ($baptismData as $baptism) { ?>
-    <div class="modal fade" id="editBaptismModal<?= $baptism['id'] ?>" tabindex="-1"
-        aria-labelledby="editBaptismModalLabel<?= $baptism['id'] ?>" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bolder" id="editBaptismModalLabel<?= $baptism['id'] ?>">Edit Baptism</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="baptism_edit.php">
-                        <input type="hidden" name="baptism_id" value="<?= $baptism['id'] ?>">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="record_no" class="form-label">Record No:</label>
-                                    <input type="text" class="form-control" id="record_no" name="record_no"
-                                        value="<?= $baptism['record_no'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="date_of_birth" class="form-label">Date of Birth:</label>
-                                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
-                                        value="<?= $baptism['date_of_birth'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="father_name" class="form-label">Father's Name:</label>
-                                    <input type="text" class="form-control" id="father_name" name="father_name"
-                                        value="<?= $baptism['father_name'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="rev" class="form-label">Rev.:</label>
-                                    <input type="text" class="form-control" id="rev" name="rev"
-                                        value="<?= $baptism['rev'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="book" class="form-label">Book no.:</label>
-                                    <input type="text" class="form-control" id="book" name="book"
-                                        value="<?= $baptism['book'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="church" class="form-label">Church Name:</label>
-                                    <input type="text" class="form-control" id="church" name="church_name"
-                                        value="<?= $baptism['church_name'] ?>" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name of Child:</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        value="<?= $baptism['name'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Gender:</label>
-                                    <select class="form-select" id="gender" name="gender" value="<?= $baptism['gender'] ?>"
-                                        required>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="mother_name" class="form-label">Mother's Name:</label>
-                                    <input type="text" class="form-control" id="mother_name" name="mother_name"
-                                        value="<?= $baptism['mother_name'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="page" class="form-label">Page:</label>
-                                    <input type="text" class="form-control" id="page" name="page"
-                                        value="<?= $baptism['page'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="cath" class="form-label">Catholic Church Dated:</label>
-                                    <input type="date" class="form-control" id="date_cath" name="cath"
-                                        value="<?= $baptism['cath'] ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="line" class="form-label">Line:</label>
-                                    <input type="text" class="form-control" id="line" name="line"
-                                        value="<?= $baptism['line'] ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="minister_name" class="form-label">Name of Priest:</label>
-                            <input type="text" class="form-control" id="minister_name" name="minister_name"
-                                value="<?= $baptism['minister_name'] ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="spo" class="form-label">Sponsors:</label>
-                            <input type="text" class="form-control" id="spo" name="spo" value="<?= $baptism['spo'] ?>"
-                                required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="spouse" class="form-label">Spouse(Optional):</label>
-                            <input type="text" class="form-control" id="spouse" name="spouse"
-                                value="<?= $baptism['spouse'] ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="place_of_birth" class="form-label">Place of Birth:</label>
-                            <input type="text" class="form-control" id="place_of_birth" name="place_of_birth"
-                                value="<?= $baptism['place_of_birth'] ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="present_address" class="form-label">Present Address:</label>
-                            <input type="text" class="form-control" id="present_address" name="present_address"
-                                value="<?= $baptism['present_address'] ?>" srequired>
-                        </div>
-                        <div class="mb-3">
-                            <label for="date_of_baptism" class="form-label">Date of Baptism:</label>
-                            <input type="date" class="form-control" id="date_of_baptism" name="date_of_baptism"
-                                value="<?= $baptism['date_of_baptism'] ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="place_of_baptism" class="form-label">Place of Baptism:</label>
-                            <input type="text" class="form-control" id="place_of_baptism" name="place_of_baptism"
-                                value="<?= $baptism['place_of_baptism'] ?>" required>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="editBaptism">Save Changes</button>
-
-                </div>
-                </form>
+<div class="modal fade" id="editBaptismModal<?= $baptism['id'] ?>" tabindex="-1"
+    aria-labelledby="editBaptismModalLabel<?= $baptism['id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bolder" id="editBaptismModalLabel<?= $baptism['id'] ?>">Edit Baptism</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form method="POST" action="baptism_edit.php">
+                    <input type="hidden" name="baptism_id" value="<?= $baptism['id'] ?>">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="record_no" class="form-label">Record No:</label>
+                                <input type="text" class="form-control" id="record_no" name="record_no"
+                                    value="<?= $baptism['record_no'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="date_of_birth" class="form-label">Date of Birth:</label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
+                                    value="<?= $baptism['date_of_birth'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="father_name" class="form-label">Father's Name:</label>
+                                <input type="text" class="form-control" id="father_name" name="father_name"
+                                    value="<?= $baptism['father_name'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rev" class="form-label">Rev.:</label>
+                                <input type="text" class="form-control" id="rev" name="rev"
+                                    value="<?= $baptism['rev'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="book" class="form-label">Book no.:</label>
+                                <input type="text" class="form-control" id="book" name="book"
+                                    value="<?= $baptism['book'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="church" class="form-label">Church Name:</label>
+                                <input type="text" class="form-control" id="church" name="church_name"
+                                    value="<?= $baptism['church_name'] ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name of Child:</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="<?= $baptism['name'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender:</label>
+                                <select class="form-select" id="gender" name="gender" value="<?= $baptism['gender'] ?>"
+                                    required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mother_name" class="form-label">Mother's Name:</label>
+                                <input type="text" class="form-control" id="mother_name" name="mother_name"
+                                    value="<?= $baptism['mother_name'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="page" class="form-label">Page:</label>
+                                <input type="text" class="form-control" id="page" name="page"
+                                    value="<?= $baptism['page'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cath" class="form-label">Catholic Church Dated:</label>
+                                <input type="date" class="form-control" id="date_cath" name="cath"
+                                    value="<?= $baptism['cath'] ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="line" class="form-label">Line:</label>
+                                <input type="text" class="form-control" id="line" name="line"
+                                    value="<?= $baptism['line'] ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="minister_name" class="form-label">Name of Priest:</label>
+                        <input type="text" class="form-control" id="minister_name" name="minister_name"
+                            value="<?= $baptism['minister_name'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="spo" class="form-label">Sponsors:</label>
+                        <input type="text" class="form-control" id="spo" name="spo" value="<?= $baptism['spo'] ?>"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="spouse" class="form-label">Spouse(Optional):</label>
+                        <input type="text" class="form-control" id="spouse" name="spouse"
+                            value="<?= $baptism['spouse'] ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="place_of_birth" class="form-label">Place of Birth:</label>
+                        <input type="text" class="form-control" id="place_of_birth" name="place_of_birth"
+                            value="<?= $baptism['place_of_birth'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="present_address" class="form-label">Present Address:</label>
+                        <input type="text" class="form-control" id="present_address" name="present_address"
+                            value="<?= $baptism['present_address'] ?>" srequired>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_of_baptism" class="form-label">Date of Baptism:</label>
+                        <input type="date" class="form-control" id="date_of_baptism" name="date_of_baptism"
+                            value="<?= $baptism['date_of_baptism'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="place_of_baptism" class="form-label">Place of Baptism:</label>
+                        <input type="text" class="form-control" id="place_of_baptism" name="place_of_baptism"
+                            value="<?= $baptism['place_of_baptism'] ?>" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="editBaptism">Save Changes</button>
+
+            </div>
+            </form>
         </div>
     </div>
+</div>
 <?php } ?>
 
 
@@ -488,25 +423,25 @@ if (isset($_POST['addMembers'])) {
 <!-- Include the necessary JavaScript file -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+</script>
 <script src="js/jquery.min.js"></script>
 <script src="js/datatables-simple.js"></script>
 
 
 <script>
-    $(document).ready(function() {
-        $('#search').on('keyup', function() {
-            var searchText = $(this).val().toLowerCase();
-            $('table tbody tr').each(function() {
-                var rowText = $(this).text().toLowerCase();
-                if (rowText.indexOf(searchText) === -1) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
+$(document).ready(function() {
+    $('#search').on('keyup', function() {
+        var searchText = $(this).val().toLowerCase();
+        $('table tbody tr').each(function() {
+            var rowText = $(this).text().toLowerCase();
+            if (rowText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
         });
     });
+});
 </script>
 
 <!-- End of Sidebar -->
@@ -536,5 +471,5 @@ if (isset($_POST['addMembers'])) {
     </div>
 </div>
 </body>
-</html>
 
+</html>

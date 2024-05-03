@@ -9,93 +9,20 @@
 
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
+    <?php include('header_nav.php');?>
+    <!-- Main Content -->
+    <div id="content">
 
-<!-- Main Content -->
-<div id="content">
-
-    <!-- Topbar -->
-    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-        <!-- Sidebar Toggle (Topbar) -->
-        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-        </button>
-
-        <!-- Topbar Search -->
-        <form
-            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-            <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Topbar Navbar -->
-        <ul class="navbar-nav ml-auto">
-            
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown">
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                        <div class="input-group">
-                        <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-800 large">Mary Rose</span>
-                    <img class="img-profile rounded-circle mr-2"
-                        src="img/logo.png">
-                </a>
-                <!-- Dropdown - User Information -->
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="profile.php">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                        Profile
-                    </a>
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                        Logout
-                    </a>
-                </div>
-            </li>
-
-        </ul>
-
-    </nav>
-
-
-                    
-<?php
-function fetchData($conn, $table) {
-    $query = "SELECT * FROM baptism"; // Make sure the table name matches the one in your database
-    $result = $conn->query($query);
-    $data = array();
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
-    return $data;
-}
+        <?php
+        function fetchData($conn, $table) {
+            $query = "SELECT * FROM baptism";
+            $result = $conn->query($query);
+            $data = array();
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
 
 
 // Establish a database connection
@@ -139,118 +66,120 @@ if (isset($_GET['id'])) {
 
 ?>
 
-<!-- Main Content -->
-<div class="col-10 col-xl-12">
-    <div class="col mt-4">
-        <h1 class="mb-4 text-uppercase fw-bolder">Baptism Information</h1>
-        
-        <hr>
-      
-        <div class="row">
-    <?php if (isset($_GET['id'])) { ?>
-        <div class="col-12">
-    <div class="card mb-3">
-        <strong><div class="card-header d-flex justify-content-between align-items-center">
-            Client - <?php echo $baptismRecord['name']; ?>
-            <div></strong>
-                <a href="baptism.php" class="btn btn-primary">Back</a>
-                <button type="button" class="btn btn-secondary" onclick="generatePDF(<?php echo $baptismRecord['id']; ?>)">Print</button>
-            </div>
-        </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td>ID:</td>
-                            <td><?php echo $baptismRecord['id']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Book No:</td>
-                            <td><?php echo $baptismRecord['book']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Line No:</td>
-                            <td><?php echo $baptismRecord['line']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Page No:</td>
-                            <td><?php echo $baptismRecord['page']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Rev :</td>
-                            <td><?php echo $baptismRecord['rev']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Sponsor:</td>
-                            <td><?php echo $baptismRecord['spo']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Name of Child:</td>
-                            <td><?php echo $baptismRecord['name']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Date of Birth:</td>
-                            <td><?php echo $baptismRecord['date_of_birth']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Place of Birth:</td>
-                            <td><?php echo $baptismRecord['place_of_birth']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Father's Name:</td>
-                            <td><?php echo $baptismRecord['father_name']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Mother's Name:</td>
-                            <td><?php echo $baptismRecord['mother_name']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Gender:</td>
-                            <td><?php echo $baptismRecord['gender']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Present Address:</td>
-                            <td><?php echo $baptismRecord['present_address']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Name of Priest:</td>
-                            <td><?php echo $baptismRecord['minister_name']; ?></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Date of Baptism:</td>
-                            <td><?php echo $baptismRecord['date_of_baptism']; ?></td>
-                        </tr>
-                        <tr>
-                            <td>Place of Baptism:</td>
-                            <td><?php echo $baptismRecord['place_of_baptism']; ?></td>
-                        </tr>
-                        <!-- Add more fields as needed -->
-                    </tbody>
-                </table>
-            </div>
-           
+        <!-- Main Content -->
+        <div class="col-10 col-xl-12">
+            <div class="col mt-4">
+                <h1 class="mb-4 text-uppercase fw-bolder">Baptism Information</h1>
 
-        </div>
-    </div>
-    <?php } ?>
-</div>
-                                        <script>
-                                            function generatePDF(memberId) {
-    // Pass the member's ID to the PDF generation script
-    window.open('generate_pdf.php?id=' + memberId, '_blank');
-}
+                <hr>
 
-                                        </script>
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class="row">
+                    <?php if (isset($_GET['id'])) { ?>
+                    <div class="col-12">
+                        <div class="card mb-3">
+                            <strong>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    Client - <?php echo $baptismRecord['name']; ?>
+                                    <div>
+                            </strong>
+                            <a href="baptism.php" class="btn btn-primary">Back</a>
+                            <button type="button" class="btn btn-secondary"
+                                onclick="generatePDF(<?php echo $baptismRecord['id']; ?>)">Print</button>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>ID:</td>
+                                    <td><?php echo $baptismRecord['id']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Book No:</td>
+                                    <td><?php echo $baptismRecord['book']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Line No:</td>
+                                    <td><?php echo $baptismRecord['line']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Page No:</td>
+                                    <td><?php echo $baptismRecord['page']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Rev :</td>
+                                    <td><?php echo $baptismRecord['rev']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Sponsor:</td>
+                                    <td><?php echo $baptismRecord['spo']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Name of Child:</td>
+                                    <td><?php echo $baptismRecord['name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Date of Birth:</td>
+                                    <td><?php echo $baptismRecord['date_of_birth']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Place of Birth:</td>
+                                    <td><?php echo $baptismRecord['place_of_birth']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Father's Name:</td>
+                                    <td><?php echo $baptismRecord['father_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Mother's Name:</td>
+                                    <td><?php echo $baptismRecord['mother_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender:</td>
+                                    <td><?php echo $baptismRecord['gender']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Present Address:</td>
+                                    <td><?php echo $baptismRecord['present_address']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Name of Priest:</td>
+                                    <td><?php echo $baptismRecord['minister_name']; ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Date of Baptism:</td>
+                                    <td><?php echo $baptismRecord['date_of_baptism']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Place of Baptism:</td>
+                                    <td><?php echo $baptismRecord['place_of_baptism']; ?></td>
+                                </tr>
+                                <!-- Add more fields as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
             </div>
+            <?php } ?>
+        </div>
+        <script>
+        function generatePDF(memberId) {
+            // Pass the member's ID to the PDF generation script
+            window.open('generate_pdf.php?id=' + memberId, '_blank');
+        }
+        </script>
+        </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+</div>
 
-          
+
 <?php
 if (isset($_POST['addMembers'])) {
     // Establish a database connection
