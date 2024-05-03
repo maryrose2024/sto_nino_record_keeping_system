@@ -132,9 +132,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                         </td>
                                     </tr>
                                     <?php 
@@ -192,6 +189,7 @@
             </div>
 
             <?php }?>
+            
             <!-- Modal for adding a schedule -->
             <div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel"
                 aria-hidden="true">

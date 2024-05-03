@@ -129,8 +129,7 @@ include 'includes/scripts.php';
         </div>
     </div>
 </div>
-</div>
-</div>
+
 
 <?php foreach ($communionData as $communion) { ?>
 <div class="modal fade" id="editCommunionModal<?= $communion['id'] ?>" tabindex="-1"
@@ -260,7 +259,6 @@ include 'includes/scripts.php';
                                 <label for="record_no" class="form-label">Record No:</label>
                                 <input type="text" class="form-control" id="record_no" name="record_no" required>
                             </div>
-
                             <div class="mb-3">
                                 <label for="father_name" class="form-label">Father Name:</label>
                                 <input type="text" class="form-control" id="father_name" name="father_name" required>
@@ -385,8 +383,6 @@ if (isset($_POST['addCommunionRecord'])) {
 }
 ?>
 
-
-</body>
 <!-- Include the necessary JavaScript file -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

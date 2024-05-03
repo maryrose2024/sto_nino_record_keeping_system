@@ -144,35 +144,10 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Modal for event details, edit, and delete -->
-    <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Event Name:</p>
-                    <h2 id="eventName"></h2>
-                    <p>Date & Time:</p>
-                    <h2 id="eventTime"></h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="editEventButton">Edit</button>
-                    <button type="button" class="btn btn-danger" id="deleteEventButton">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 <!-- backend: inserting_new_schedules -->
 <?php
-
     include 'connect.php';
 
     if (isset($_POST['addSchedule'])) {
@@ -215,10 +190,11 @@ $(document).ready(function() {
     let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         events: {
-            url: 'schedules_appointment.php',
-            method: 'POST'
+            url: 'get_schedules.php',
+            method: 'GET'
         },
         eventClick: function(info) {
+            console.log('CLICKINGGGss')
             let event = info.event;
             let modal = new bootstrap.Modal($('#eventModal'), {
                 keyboard: true
@@ -228,21 +204,15 @@ $(document).ready(function() {
                 $('#eventTitle').html(event.title);
                 $('#eventName').html(event.title);
                 $('#eventTime').html(event.startStr);
-                // Add these lines to display the priest and client_name
-                $('#eventPriest').html(event.extendedProps
-                    .priest); // Change 'event.priest' to the correct property name
-                $('#eventClientName').html(event.extendedProps
-                    .client_name); // Change 'event.client_name' to the correct property name
+                $('#eventPriest').html(event.extendedProps.priest);
+                $('#eventClientName').html(event.extendedProps.client_name);
 
-                // Edit button click handler
                 $('#editEventButton').click(function() {
-                    // Redirect to an edit page with the event ID
                     window.location.href = 'schedules_edit.php?id=' + event.id;
                 });
 
                 $('#deleteEventButton').click(function() {
                     if (confirm('Are you sure you want to delete this event?')) {
-                        // Send an AJAX request to delete the event
                         $.ajax({
                             url: 'schedules_delete.php',
                             method: 'POST',
@@ -253,8 +223,7 @@ $(document).ready(function() {
                                 if (response.success) {
                                     calendar.refetchEvents();
                                     modal.hide();
-                                    // Update the schedule list
-                                    updateScheduleList(event.id);
+                                    updateScheduleList();
                                 } else {
                                     alert('Error deleting event.');
                                 }
@@ -266,9 +235,7 @@ $(document).ready(function() {
                     }
                 });
 
-
-                // Update the schedule list
-                updateScheduleList(event.id);
+                updateScheduleList();
             } else {
                 $('#eventTitle').html('No Event Selected');
                 $('#eventName').html('');
@@ -276,32 +243,27 @@ $(document).ready(function() {
             }
             modal.show();
         }
-
     });
+
     calendar.render();
 
     function updateScheduleList() {
         $.ajax({
-            url: 'schedules_list.php', // Replace with your script URL
+            url: 'get_schedules.php',
             method: 'GET',
             dataType: 'json',
             success: function(response) {
                 let scheduleList = $('#scheduleList');
-
-                // Clear the existing list
                 scheduleList.empty();
 
-                // Loop through the schedule data and populate the list
                 $.each(response, function(index, schedule) {
-                    let listItem = $('<li>').html('<strong>' + schedule.eventName +
-                        ':</strong> ' + schedule.datetime);
+                    let listItem = $('<li>').html('<strong>' + schedule.title +
+                        ':</strong> ' + schedule.start);
                     scheduleList.append(listItem);
                 });
-            },
+            }
         });
     }
-
-    // Call the function to populate the schedule list on page load
     updateScheduleList();
 });
 </script>

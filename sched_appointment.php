@@ -2,7 +2,7 @@
 include 'connect.php'; // Include your database connection script
 
 // Query to retrieve events from the database, including "priest" and "client_name"
-$sql = "SELECT `id`, `name`, `datetime`, `priest`, `client_name` FROM `schedule`";
+$sql = "SELECT * FROM `schedules`";
 
 $result = mysqli_query($conn, $sql);
 
@@ -17,7 +17,7 @@ if (mysqli_num_rows($result) > 0) {
         // Include "priest" and "client_name" in the events data
         $events[] = [
             'id' => $row['id'],
-            'title' => $row['name'],
+            'title' => $row['event_name'],
             'start' => $start,
             'priest' => $row['priest'],
             'client_name' => $row['client_name']
