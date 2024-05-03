@@ -28,7 +28,8 @@
 
     <!-- Nav Item - Schedule Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="true" aria-controls="collapseSchedule">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
+            aria-expanded="true" aria-controls="collapseSchedule">
             <i class="bi bi-calendar-fill"></i>
             <span>Schedule</span>
         </a>
@@ -36,18 +37,20 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Components</h6>
                 <a class="collapse-item" href="calendar.php">Calendar</a>
-                <a class="collapse-item" href="sched.php">Schedule List</a>
+                <a class="collapse-item" href="schedules.php">Schedule List</a>
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Sacraments Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSacraments" aria-expanded="true" aria-controls="collapseSacraments">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSacraments"
+            aria-expanded="true" aria-controls="collapseSacraments">
             <i class='fas fa-church'></i>
             <span>Sacraments</span>
         </a>
-        <div id="collapseSacraments" class="collapse" aria-labelledby="headingSacraments" data-parent="#accordionSidebar">
+        <div id="collapseSacraments" class="collapse" aria-labelledby="headingSacraments"
+            data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Records</h6>
                 <a class="collapse-item" href="baptism.php">Baptism</a>
@@ -96,11 +99,14 @@
 
     <!-- Sidebar Message -->
     <div class="sidebar-card">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook"
+            viewBox="0 0 16 16">
+            <path
+                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
         </svg>
         <p class="mb-2">
-            <a target="_blank" rel="nofollow" href="https://www.facebook.com/stoninoparishroxas"> Sto. Niño Parish Facebook Page </a>
+            <a target="_blank" rel="nofollow" href="https://www.facebook.com/stoninoparishroxas"> Sto. Niño Parish
+                Facebook Page </a>
         </p>
     </div>
 
@@ -113,7 +119,8 @@
 </a>
 
 <!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

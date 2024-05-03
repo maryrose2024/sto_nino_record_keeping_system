@@ -27,7 +27,8 @@ include 'includes/scripts.php';
             <ul class="navbar-nav ml-auto">
 
                 <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                    aria-labelledby="searchDropdown">
                     <form class="form-inline mr-auto w-100 navbar-search">
                         <div class="input-group">
                             <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
@@ -40,16 +41,15 @@ include 'includes/scripts.php';
                     </form>
                 </div>
                 </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-                <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 large">Mary Rose</span>
                         <img class="img-profile rounded-circle mr-2" src="img/logo.png">
                     </a>
                     <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="profile.php">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
                             Profile
@@ -77,7 +77,6 @@ include 'includes/scripts.php';
             }
             return $data;
         }
-
         $paymentsData = fetchData($conn, 'payments');
         ?>
 
@@ -86,7 +85,8 @@ include 'includes/scripts.php';
             <div class="col mt-4">
                 <h1 class="mb-4 text-uppercase fw-bolder">Donation</h1>
                 <hr>
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addPaymentsModal">
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                    data-bs-target="#addPaymentsModal">
                     Add Donation
                 </button>
                 <div class="row">
@@ -106,87 +106,96 @@ include 'includes/scripts.php';
                                 </thead>
                                 <tbody>
                                     <?php foreach ($paymentsData as $payment) { ?>
-                                        <?php
+                                    <?php
                                         $dateTime = new DateTime($payment['payment_date']);
                                         $formattedDate = $dateTime->format('M d, Y');
 
                                         $formattedAmount = '₱' . number_format($payment['amount'], 2, '.', ',');
                                         ?>
 
-                                        <tr>
-                                            <td><?php echo $payment['id']; ?></td>
-                                            <td><?php echo $payment['fullname']; ?></td>
-                                            <td><?php echo $payment['address']; ?></td>
-                                            <td><?php echo $formattedAmount; ?></td>
-                                            <td><?php echo $formattedDate; ?></td>
-                                            <td><?php echo $payment['contributions']; ?></td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPaymentModal<?php echo $payment['id']; ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
+                                    <tr>
+                                        <td><?php echo $payment['id']; ?></td>
+                                        <td><?php echo $payment['fullname']; ?></td>
+                                        <td><?php echo $payment['address']; ?></td>
+                                        <td><?php echo $formattedAmount; ?></td>
+                                        <td><?php echo $formattedDate; ?></td>
+                                        <td><?php echo $payment['contributions']; ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editPaymentModal<?php echo $payment['id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
 
-                                                <button type="button" class="btn btn-secondary" onclick="generatePDF(<?php echo $payment['id']; ?>)">
-
-                                                    <i class="fas fa-print"></i>
-                                                </button>
-
-                                            </td>
-                                        </tr>
+                                            <button type="button" class="btn btn-secondary"
+                                                onclick="generatePDF(<?php echo $payment['id']; ?>)">
+                                                <i class="fas fa-print"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                     <?php } ?>
                                     <script>
-                                        function generatePDF(paymentId) {
-                                            // Open a new window to trigger the PDF generation script
-                                            window.open('generate_paymentpdf.php?payment_id=' + paymentId, '_blank');
-                                        }
+                                    function generatePDF(paymentId) {
+                                        // Open a new window to trigger the PDF generation script
+                                        window.open('generate_paymentpdf.php?payment_id=' + paymentId, '_blank');
+                                    }
                                     </script>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
                     <!-- Edit Payment Modals -->
                     <?php foreach ($paymentsData as $payment) { ?>
-                        <div class="modal fade" id="editPaymentModal<?= $payment['id'] ?>" tabindex="-1" aria-labelledby="editPaymentModalLabel<?= $payment['id'] ?>" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <form action="" method="POST">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editPaymentModalLabel<?= $payment['id'] ?>">
-                                                    Edit Donation
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <input type="hidden" name="payment_id" value="<?= $payment['id'] ?>">
-                                            <div class="mb-3">
-                                                <label for="fullname" class="form-label">Full Name:</label>
-                                                <input type="text" class="form-control" id="fullname" name="fullname" value="<?= $payment['fullname'] ?>" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="address" class="form-label">Address:</label>
-                                                <input type="text" class="form-control" id="address" name="address" value="<?= $payment['address'] ?>" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="amount" class="form-label">Amount:</label>
-                                                <input type="number" class="form-control" id="amount" name="amount" value="<?= $payment['amount'] ?>" step="0.01" readonly>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="payment_date" class="form-label">Date:</label>
-                                                <input type="date" class="form-control" id="payment_date" name="payment_date" value="<?= $payment['payment_date'] ?>" readonly>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="contributions" class="form-label">Contributions:</label>
-                                                <input type="text" class="form-control" id="contributions" name="contributions" value="<?= $payment['contributions'] ?>" readonly>
-                                            </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" name="editDonation">Save
-                                            Changes</button>
-                                    </div>
-                                    </form>
+                    <div class="modal fade" id="editPaymentModal<?= $payment['id'] ?>" tabindex="-1"
+                        aria-labelledby="editPaymentModalLabel<?= $payment['id'] ?>" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editPaymentModalLabel<?= $payment['id'] ?>">
+                                                Edit Donation
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <input type="hidden" name="payment_id" value="<?= $payment['id'] ?>">
+                                        <div class="mb-3">
+                                            <label for="fullname" class="form-label">Full Name:</label>
+                                            <input type="text" class="form-control" id="fullname" name="fullname"
+                                                value="<?= $payment['fullname'] ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Address:</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                value="<?= $payment['address'] ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="amount" class="form-label">Amount:</label>
+                                            <input type="number" class="form-control" id="amount" name="amount"
+                                                value="<?= $payment['amount'] ?>" step="0.01" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="payment_date" class="form-label">Date:</label>
+                                            <input type="date" class="form-control" id="payment_date"
+                                                name="payment_date" value="<?= $payment['payment_date'] ?>" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="contributions" class="form-label">Contributions:</label>
+                                            <input type="text" class="form-control" id="contributions"
+                                                name="contributions" value="<?= $payment['contributions'] ?>" readonly>
+                                        </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" name="editDonation">Save
+                                        Changes</button>
+                                </div>
+                                </form>
                             </div>
                         </div>
+                    </div>
                     <?php } ?>
 
                     <?php
@@ -226,28 +235,32 @@ include 'includes/scripts.php';
                     }
                     ?>
 
-
                     <!-- Add Payments Modal -->
-                    <div class="modal fade" id="addPaymentsModal" tabindex="-1" aria-labelledby="addPaymentsModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addPaymentsModal" tabindex="-1" aria-labelledby="addPaymentsModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title fw-bolder" id="addPaymentsModalLabel">Add Donation</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="" method="POST" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="fullname" class="form-label">Full Name:</label>
-                                            <input type="text" class="form-control" id="fullname" name="fullname" required>
+                                            <input type="text" class="form-control" id="fullname" name="fullname"
+                                                required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Address:</label>
-                                            <input type="text" class="form-control" id="address" name="address" required>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">Amount:</label>
-                                            <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                                            <input type="number" class="form-control" id="amount" name="amount"
+                                                step="0.01" required>
                                         </div>
                                         <!-- <div class="mb-3">
                                                 <label for="payment_date" class="form-label">Payment Date:</label>
@@ -256,7 +269,8 @@ include 'includes/scripts.php';
                                             </div> -->
                                         <div class="mb-3">
                                             <label for="contributions" class="form-label">Contributions:</label>
-                                            <select class="form-select" id="contributions" name="contributions" required>
+                                            <select class="form-select" id="contributions" name="contributions"
+                                                required>
                                                 <option value="Mass">Mass /Misa</option>
                                                 <option value="Blessing">Blessing</option>
                                                 <option value="Christening">Christening /Binyag</option>
@@ -266,11 +280,11 @@ include 'includes/scripts.php';
                                                 <option value="Conversion">Conversion /Konbersiyon</option>
                                                 <option value="Funeral">Funeral /Libing</option>
                                             </select>
-
                                         </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary" name="addPayments">Submit</button>
                                 </div>
                                 </form>
@@ -317,7 +331,9 @@ include 'includes/scripts.php';
 
             </body>
             <!-- Include the necessary JavaScript file -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous">
             </script>
 
 

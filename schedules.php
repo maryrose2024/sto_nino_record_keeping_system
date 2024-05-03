@@ -5,46 +5,36 @@
     include 'includes/scripts.php';
 ?>
 
-
-<!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
-    <!-- Main Content -->
     <div id="content">
-        <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-            <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                 <i class="fa fa-bars"></i>
             </button>
 
-            <!-- Topbar Search Display Only-->
-            <input class="form-control" type="text" placeholder="                                                                                  
-        Sto. Niño Parish Record-Keeping Information System" aria-label="Disabled input example" disabled readonly>
+            <input class="form-control" type="text" placeholder="Sto. Niño Parish Record-Keeping Information System"
+                aria-label="Disabled input example" disabled readonly>
 
-
-            <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown">
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                <li>
+                    <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                        aria-labelledby="searchDropdown">
+                        <form class="form-inline mr-auto w-100 navbar-search">
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="searchInput" placeholder="Search for...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
                 </li>
 
                 <div class="topbar-divider d-none d-sm-block"></div>
 
-                <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -66,16 +56,13 @@
                         </a>
                     </div>
                 </li>
-
             </ul>
-
         </nav>
 
         <?php
                 $sql = "SELECT `id`, `name`, `datetime`, `priest`, `client_name`, `timestamp` FROM `schedule`";
                 $result = mysqli_query($conn, $sql);
                 
-                // Initialize an array to store appointments
                 $appointments = [];
                 
                 if (mysqli_num_rows($result) > 0) {
@@ -83,7 +70,7 @@
                         $appointments[] = $row;
                     }
                 }
-            ?>
+        ?>
         <div class="col-12 col-xl-12">
             <div class="col mt-4">
                 <h1 class="mb-2 text-uppercase fw-bolder">Event Calendar</h1>
@@ -93,69 +80,134 @@
                     Add Schedule
                 </button>
                 <div class="row">
-                    <div class="col-md-4">
-                        <h3 class="fw-bolder">Schedule List</h3>
-                        <ul id="scheduleList" class="list-group">
-                            <?php
-                            // SQL query to fetch schedule data
-                            $sql = "SELECT `id`, `name`, `datetime`, `priest`, `client_name`, `timestamp` FROM `schedule`";
-                            $result = mysqli_query($conn, $sql);
-
-                            // Check if any rows were returned
-                            if (mysqli_num_rows($result) > 0) {
-                                // Loop through the schedule data and generate list items
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo '<li class="list-group-item schedule-item" data-toggle="modal" data-target="#eventModal"
-                                        data-eventid="' . $row['id'] . '">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">' . $row['name'] . '</h5>
-                                                <small>' . $row['datetime'] . '</small>
-                                            </div>
-                                        </li>';
-                                }
-                            } else {
-                                // No schedule data found
-                                echo '<div class="alert alert-info" role="alert">No schedule data available.</div>';
+                    <h3 class="fw-bolder">Schedule List</h3>
+                    <?php
+                        function fetchData($conn, $table)
+                        {
+                            $query = "SELECT * FROM $table";
+                            $result = $conn->query($query);
+                            $data = array();
+                            while ($row = $result->fetch_assoc()) {
+                                $data[] = $row;
                             }
-                        ?>
-                        </ul>
+                            return $data;
+                        }
+                        $schedData = fetchData($conn, 'schedules');
+                    ?>
+
+                    <?php 
+                        function fetchUserName($conn, $user_id) {
+                            $query = "SELECT fullname FROM account WHERE id = '$user_id'";
+                            $result = $conn->query($query);
+                            if ($result === FALSE) {
+                                return "Error fetching user name";
+                            } else {
+                                if ($result->num_rows > 0) {
+                                    $row = $result->fetch_assoc();
+                                    return $row['fullname'];
+                                } else {
+                                    return "User not found";
+                                }
+                            }
+                        }
+                    
+                    ?>
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table style="background-color: white" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Date</th>
+                                        <th>Event</th>
+                                        <th>Client</th>
+                                        <th>Pamayanan</th>
+                                        <th>Added By</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        $rowNumber = 1; 
+                                        foreach ($schedData as $sched) { 
+                                        ?>
+
+                                    <?php 
+                                        $user_id = fetchUserName($conn, $sched['added_by']);
+                                    ?> 
+                                    <tr>
+                                        <td><?php echo $rowNumber; ?></td>
+                                        <td>
+                                            <span class="fs-5 fw-bold"><?php echo $sched['date']; ?></span><br>
+                                            <span class="fs-6"><?php echo $sched['time']; ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="fs-5 fw-bold"><?php  echo $sched['event_name']; ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="fs-5 fw-bold"><?php  echo $sched['client_name']; ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="fs-5 fw-bold"><?php  echo $sched['address']; ?></span>
+                                        </td>
+                                        <td><?php echo  $user_id; ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#eventModal<?php echo $sched['id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php 
+                                            $rowNumber++; 
+                                            } 
+                                        ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div style="background-color: white; text-decoration:black;" class="col-md-8">
+                    <!-- <div style="background-color: white; text-decoration:black;" class="col-md-8">
                         <div id="calendar"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-
+            
+            
             <!-- Modal for event details, edit, and delete -->
-            <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <?php foreach ($schedData as $sched) { ?>
+            <?php 
+                $schedDate = $sched['date'];
+                $dateTime = new DateTime($schedDate);
+                $formattedDate = $dateTime->format('F d, Y');
+            ?>
+            <div class="modal fade" id="eventModal<?= $sched['id'] ?>" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="eventTitle"></h5>
+                            <h5 class="modal-title fw-bolder fs-4">
+                                <?= $sched['event_name']?>
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Event Name:</p>
-                            <h2 id="eventName"></h2>
-                            <p>Location (Pamayanan):</p>
-                            <h2 id="eventPlace"></h2>
-                            <p>Date & Time:</p>
-                            <h2 id="eventTime"></h2>
-                            <!-- Add the following lines to display the priest and client_name -->
-                            <p>Priest:</p>
-                            <h2 id="eventPriest"></h2>
-                            <p>Client Name:</p>
-                            <h2 id="eventClientName"></h2>
+                            <h5 class="fw-bold">Location (Pamayanan):</h5>
+                            <p><?= $sched['address']?></p>
+                            <h5 class="fw-bold">Date & Time:</h5>
+                            <p> <?= $formattedDate ?> <small>at</small> <?= $sched['time']?> </p>
+                            <h5 class="fw-bold">Priest:</h5>
+                            <p> <?= $sched['priest']?></p>
+                            <h5 class="fw-bold">Client Name:</h5>
+                            <p> <?= $sched['client_name']?></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="editEventButton">Edit</button>
                             <button type="button" class="btn btn-danger" id="deleteEventButton">Delete</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <?php }?>
             <!-- Modal for adding a schedule -->
             <div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel"
                 aria-hidden="true">
@@ -169,46 +221,66 @@
                             <form id="addScheduleForm" method="POST" action="">
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Event Name</label>
-                                    <select class="form-select" id="status" name="status" required>
-                                        <option value="Married">Mass /Misa</option>
-                                        <option value="Married">Blessing</option>
-                                        <option value="Single">Christening /Binyag</option>
-                                        <option value="Married">Communion /Komunyon</option>
-                                        <option value="Married">Confirmation /Kumpil</option>
-                                        <option value="Married">Wedding /Kasal</option>
-                                        <option value="Married">Conversion /Konbersiyon</option>
-                                        <option value="Married">Funeral /Libing</option>
+                                    <select class="form-select" id="event_name" name="event_name" required>
+                                        <option value="Mass">Mass (Misa)</option>
+                                        <option value="Blessing">Blessing</option>
+                                        <option value="Christening">Christening (Binyag)</option>
+                                        <option value="Communion">Communion (Komunyon)</option>
+                                        <option value="Confirmation">Confirmation (Kumpil)</option>
+                                        <option value="Wedding">Wedding (Kasal)</option>
+                                        <option value="Conversion">Conversion (Konbersiyon)</option>
+                                        <option value="Funeral">Funeral (Libing)</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="eventplace" class="form-label">Location (Pamayanan)</label>
-                                    <select class="form-select" id="pamayanan" name="pamayanan" required>
-                                        <option value=" ">Dalahican</option>
-                                        <option value=" ">New Dangay</option>
-                                        <option value=" ">Old Dangay</option>
-                                        <option value=" ">Bal-ong</option>
-                                        <option value=" ">Paclasan</option>
-                                        <option value=" ">Camantigue</option>
-                                        <option value=" ">Labonan</option>
-                                        <option value=" "></option>
-                                    </select>
-                                </div>
+                                <?php
+                            $sql = "SELECT brgy FROM address"; 
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                echo '<div class="mb-3">';
+                                echo '<label for="eventplace" class="form-label">Location (Pamayanan)</label>';
+                                echo '<select class="form-select" id="address" name="address" required>';
+
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['brgy'] . '">' . $row['brgy'] . '</option>';
+                                }
+                                echo '</select>';
+                                echo '</div>';
+                            } else {
+                                echo "No addresses found in the database.";
+                            }
+                        ?>
                                 <div class="mb-3">
                                     <label for="datetime" class="form-label">Date & Time</label>
                                     <input type="datetime-local" class="form-control" id="datetime" name="datetime"
                                         required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="priest" class="form-label">Priest</label>
-                                    <select class="form-select" id="priest" name="priest" required>
-                                        <option value=" ">Fr. Edwin Semilla</option>
-                                        <option value=" ">Fr. Pogi</option>
-                                    </select>
 
-                                </div>
+                                <?php
+                            $query = "SELECT first_name, middle_name, last_name FROM priest";
+                            $result = mysqli_query($conn, $query);
+
+                            if ($result) {
+                                echo '<div class="mb-3">';
+                                echo '<label for="priest" class="form-label">Priest</label>';
+                                echo '<select class="form-select" id="priest" name="priest" required>';
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $formatted_name = 'Fr. ' . $row['first_name'] . ' ' . substr($row['middle_name'], 0, 1) . '. ' . $row['last_name'];
+                                    echo '<option value="' . $formatted_name . '">' . $formatted_name . '</option>';
+                                }
+
+                                echo '</select>';
+                                echo '</div>';
+                            } else {
+                                echo 'Error fetching data from the database';
+                            }
+                        ?>
+
                                 <div class="mb-3">
-                                    <label for="clientname" class="form-label">Client Name</label>
-                                    <input type="text" class="form-control" id="clientname" name="clientname" required>
+                                    <label for="client_name" class="form-label">Client Name</label>
+                                    <input type="text" class="form-control" id="client_name" name="client_name"
+                                        required>
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -220,86 +292,69 @@
                 </div>
             </div>
 
-
-            <!-- Modal for event details, edit, and delete -->
-            <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="eventTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Event Name:</p>
-                            <h2 id="eventName"></h2>
-                            <p>Date & Time:</p>
-                            <h2 id="eventTime"></h2>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="editEventButton">Edit</button>
-                            <button type="button" class="btn btn-danger" id="deleteEventButton">Delete</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+    <!-- backend: inserting_new_schedules -->
     <?php
+    include 'connect.php';
 
-include 'connect.php';
+    if (isset($_POST['addSchedule'])) {
+        $user_id = $_SESSION['user_id'];
+        $event_name = $_POST['event_name'];
+        $client_name = $_POST['client_name'];
+        $address = $_POST['address'];
+        $datetime = $_POST['datetime'];
 
-if (isset($_POST['addSchedule'])) {
-    $name = $_POST['eventname'];
-    $datetime = $_POST['datetime'];
-    $priest = $_POST['priest']; // Add this line to capture the priest value
-    $clientName = $_POST['clientname']; // Add this line to capture the client_name value
+        list($date, $time) = explode('T', $datetime);
+        $time = date("h:i A", strtotime($time));
 
-    // Create an INSERT query that includes the 'priest' and 'client_name' columns
-    $sql = "INSERT INTO `schedule` (`name`, `datetime`, `priest`, `client_name`, `timestamp`) 
-            VALUES ('$name', '$datetime', '$priest', '$clientName', NOW())";
+        $timestamp = strtotime($datetime);
+        $date = date('Y-m-d', $timestamp);
+        $time = date('H:i', $timestamp); 
+        $ampm = date('A', $timestamp); 
+        $time = $time . ' ' . $ampm;
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('New Schedule added successfully.'); window.location.href='schedules.php';</script>";
-    } else {
-        echo "<script>alert('Error adding new Schedule'); window.location.href='schedules.php';</script>";
+        $priest = $_POST['priest']; 
+        $clientName = $_POST['clientname']; 
+
+        $sql = "INSERT INTO `schedules` (`event_name`, `priest`, `client_name`, `added_by`,`address`, `date`, `time`) 
+                VALUES ('$event_name', '$priest', '$client_name', '$user_id', '$address', '$date', '$time')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('New Schedule added successfully.'); window.location.href='schedules.php';</script>";
+        } else {
+            echo "<script>alert('Error adding new Schedule'); window.location.href='schedules.php';</script>";
+        }
     }
-}
-?>
 
-
+    ?>
     </body>
 
     <script>
     $(document).ready(function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events: {
                 url: 'schedules_appointment.php',
                 method: 'POST'
             },
             eventClick: function(info) {
-                var event = info.event;
-                var modal = new bootstrap.Modal($('#eventModal'), {
+                let event = info.event;
+                let modal = new bootstrap.Modal($('#eventModal'), {
                     keyboard: true
                 });
 
                 if (event) {
-                    // Display event details in the modal
                     $('#eventTitle').html(event.title);
                     $('#eventName').html(event.title);
                     $('#eventTime').html(event.startStr);
-                    // Add these lines to display the priest and client_name
                     $('#eventPriest').html(event.extendedProps
-                    .priest); // Change 'event.priest' to the correct property name
+                        .priest);
                     $('#eventClientName').html(event.extendedProps
-                    .client_name); // Change 'event.client_name' to the correct property name
-
-                    // Edit button click handler
+                        .client_name);
                     $('#editEventButton').click(function() {
-                        // Redirect to an edit page with the event ID
                         window.location.href = 'schedules_edit.php?id=' + event.id;
                     });
 
@@ -345,29 +400,22 @@ if (isset($_POST['addSchedule'])) {
 
         function updateScheduleList() {
             $.ajax({
-                url: 'schedules_list.php', // Replace with your script URL
+                url: 'sched_list.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    var scheduleList = $('#scheduleList');
-
-                    // Clear the existing list
+                    let scheduleList = $('#scheduleList');
                     scheduleList.empty();
-
-                    // Loop through the schedule data and populate the list
                     $.each(response, function(index, schedule) {
-                        var listItem = $('<li>').html('<strong>' + schedule.eventName +
+                        let listItem = $('<li>').html('<strong>' + schedule.eventName +
                             ':</strong> ' + schedule.datetime);
                         scheduleList.append(listItem);
                     });
                 },
             });
         }
-
-        // Call the function to populate the schedule list on page load
         updateScheduleList();
     });
     </script>
-
 
     </html>

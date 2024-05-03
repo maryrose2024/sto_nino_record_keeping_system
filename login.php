@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
 
 
             $_SESSION['loggedin'] = true;
+            $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['userType'] = $row['usertype'];
 
