@@ -38,7 +38,9 @@
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-800 large">Mary Rose</span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-800 large">
+                            <?php echo $_SESSION['full_name'];?>
+                        </span>
                         <img class="img-profile rounded-circle mr-2" src="img/logo.png">
                     </a>
                     <!-- Dropdown - User Information -->
@@ -59,18 +61,6 @@
             </ul>
         </nav>
 
-        <?php
-                $sql = "SELECT `id`, `name`, `datetime`, `priest`, `client_name`, `timestamp` FROM `schedule`";
-                $result = mysqli_query($conn, $sql);
-                
-                $appointments = [];
-                
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $appointments[] = $row;
-                    }
-                }
-        ?>
         <div class="col-12 col-xl-12">
             <div class="col mt-4">
                 <h1 class="mb-2 text-uppercase fw-bolder">Event Calendar</h1>
@@ -167,7 +157,8 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Schedule</h1>
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+                                                                Schedule</h1>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>

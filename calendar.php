@@ -55,19 +55,7 @@
             </ul>
 
         </nav>
-        <?php
-                $sql = "SELECT `id`, `name`, `datetime`, `priest`, `client_name`, `timestamp` FROM `schedule`";
-                $result = mysqli_query($conn, $sql);
-                
-                // Initialize an array to store appointments
-                $appointments = [];
-                
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $appointments[] = $row;
-                    }
-                }
-            ?>
+
         <div class="col-12 col-xl-12">
             <div class="col mt-4">
                 <h1 class="mb-2 text-uppercase fw-bolder">Event Calendar</h1>
