@@ -64,8 +64,7 @@ include 'includes/scripts.php';
                                                 data-bs-target="#editadminModal<?php echo $admin['id']; ?>">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <a href="account_delete.php?id=<?php echo $admin['id']; ?>"
-                                                class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+
                                         </td>
                                     </tr>
                                     <?php } ?>
