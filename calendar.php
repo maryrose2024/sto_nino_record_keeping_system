@@ -1,24 +1,21 @@
 <?php
-    session_start();
-    $title = "dashboard";
-    
-    include 'includes/header.php';
-    include 'includes/navbar.php';
-    include 'includes/scripts.php';
+session_start();
+
+include 'includes/header.php';
+include 'includes/navbar.php';
 
 ?>
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
-    <?php include('header_nav.php');?>
-    <!-- Main Content -->
+    <?php include 'header_nav.php'; ?>
+    <!-- main: contains buttons and div for calendar-->
     <div id="content">
         <div class="col-12 col-xl-12">
             <div class="col mt-4">
                 <h1 class="mb-2 text-uppercase fw-bolder">Event Calendar</h1>
                 <hr>
                 <div class="d-flex gap-2 align-items-center">
-                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                        data-bs-target="#addScheduleModal">
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addScheduleModal">
                         Add Schedule
                     </button>
                     <button type="button" onclick="window.location.href='schedules.php'" class="btn btn-secondary mb-3">
@@ -33,40 +30,9 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal for event details, edit, and delete -->
-    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Event Name:</p>
-                    <h2 id="eventName"></h2>
-                    <p>Location (Pamayanan):</p>
-                    <h2 id="eventPlace"></h2>
-                    <p>Date & Time:</p>
-                    <h2 id="eventTime"></h2>
-                    <!-- Add the following lines to display the priest and client_name -->
-                    <p>Priest:</p>
-                    <h2 id="eventPriest"></h2>
-                    <p>Client Name:</p>
-                    <h2 id="eventClientName"></h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="editEventButton">Edit</button>
-                    <button type="button" class="btn btn-danger" id="deleteEventButton">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for adding a schedule -->
-    <div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel"
-        aria-hidden="true">
+    <!-- main: contains buttons and div for calendar-->
+    <!-- modal: adding schedule -->
+    <div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -89,7 +55,7 @@
                             </select>
                         </div>
                         <?php
-                            $sql = "SELECT brgy FROM address"; 
+                            $sql = "SELECT brgy FROM address";
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
@@ -109,7 +75,6 @@
                             <label for="datetime" class="form-label">Date & Time</label>
                             <input type="datetime-local" class="form-control" id="datetime" name="datetime" required>
                         </div>
-
                         <?php
                             $query = "SELECT first_name, middle_name, last_name FROM priest";
                             $result = mysqli_query($conn, $query);
@@ -135,21 +100,48 @@
                             <label for="client_name" class="form-label">Client Name</label>
                             <input type="text" class="form-control" id="client_name" name="client_name" required>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="addSchedule">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal: viewing the event -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bolder fs-4" id="m_event_name"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="fw-bold">Location (Pamayanan):</h5>
+                    <p id="m_pamayanan"></p>
+                    <h5 class="fw-bold">Date & Time:</h5>
+                    <p id="m_date_time"></p>
+                    <h5 class="fw-bold">Priest:</h5>
+                    <p id="m_priest"></p>
+                    <h5 class="fw-bold">Client Name:</h5>
+                    <p id="m_client_name"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="addSchedule">Submit</button>
+                    <form action="delete_sched.php" method="POST">
+                        <input type="hidden" name="sched_id" id="sched_id">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 <!-- backend: inserting_new_schedules -->
 <?php
     include 'connect.php';
-
     if (isset($_POST['addSchedule'])) {
         $user_id = $_SESSION['user_id'];
         $event_name = $_POST['event_name'];
@@ -162,110 +154,128 @@
 
         $timestamp = strtotime($datetime);
         $date = date('Y-m-d', $timestamp);
-        $time = date('H:i', $timestamp); 
-        $ampm = date('A', $timestamp); 
+        $time = date('H:i', $timestamp);
+        $ampm = date('A', $timestamp);
         $time = $time . ' ' . $ampm;
 
-        $priest = $_POST['priest']; 
-        $clientName = $_POST['clientname']; 
+        $priest = $_POST['priest'];
+        $clientName = $_POST['clientname'];
 
-        $sql = "INSERT INTO `schedules` (`event_name`, `priest`, `client_name`, `added_by`,`address`, `date`, `time`) 
-                VALUES ('$event_name', '$priest', '$client_name', '$user_id', '$address', '$date', '$time')";
+        $sql = "INSERT INTO `schedules` (`event_name`, `priest`, `client_name`, `added_by`,`address`, `date`, `time`)
+                            VALUES ('$event_name', '$priest', '$client_name', '$user_id', '$address', '$date', '$time')";
 
-        if ($conn->query($sql) === TRUE) {
-            echo "<script>alert('New Schedule added successfully.'); window.location.href='schedules.php';</script>";
+        if ($conn->query($sql) === true) {
+            echo "<script>alert('New Schedule added successfully.'); window.location.href='calendar.php';</script>";
         } else {
-            echo "<script>alert('Error adding new Schedule'); window.location.href='schedules.php';</script>";
+            echo "<script>alert('Error adding new Schedule'); window.location.href='ca.php';</script>";
         }
     }
+    ?>
 
-?>
-
-
-</body>
-
+<?php include 'includes/scripts.php'; ?>
 <script>
 $(document).ready(function() {
-    let calendarEl = document.getElementById('calendar');
-    let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: {
-            url: 'get_schedules.php',
-            method: 'GET'
-        },
-        eventClick: function(info) {
-            let event = info.event;
-            let modal = new bootstrap.Modal($('#eventModal'), {
-                keyboard: true
-            });
-
-            if (event) {
-                $('#eventTitle').html(event.title);
-                $('#eventName').html(event.title);
-                $('#eventTime').html(event.startStr);
-                $('#eventPriest').html(event.extendedProps.priest);
-                $('#eventClientName').html(event.extendedProps.client_name);
-
-                $('#editEventButton').click(function() {
-                    window.location.href = 'schedules_edit.php?id=' + event.id;
-                });
-
-                $('#deleteEventButton').click(function() {
-                    if (confirm('Are you sure you want to delete this event?')) {
-                        $.ajax({
-                            url: 'schedules_delete.php',
-                            method: 'POST',
-                            data: {
-                                id: event.id
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    calendar.refetchEvents();
-                                    modal.hide();
-                                    updateScheduleList();
-                                } else {
-                                    alert('Error deleting event.');
-                                }
-                            },
-                            error: function() {
-                                alert('Error deleting event.');
-                            }
-                        });
-                    }
-                });
-
-                updateScheduleList();
-            } else {
-                $('#eventTitle').html('No Event Selected');
-                $('#eventName').html('');
-                $('#eventTime').html('');
-            }
-            modal.show();
-        }
-    });
-
-    calendar.render();
-
-    function updateScheduleList() {
-        $.ajax({
-            url: 'get_schedules.php',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                let scheduleList = $('#scheduleList');
-                scheduleList.empty();
-
-                $.each(response, function(index, schedule) {
-                    let listItem = $('<li>').html('<strong>' + schedule.title +
-                        ':</strong> ' + schedule.start);
-                    scheduleList.append(listItem);
-                });
-            }
-        });
-    }
-    updateScheduleList();
+    displayEvents();
 });
+
+function displayEvents() {
+    var events = new Array();
+    $.ajax({
+        url: 'display_event.php',
+        dataType: 'json',
+        success: function(response) {
+            var result = response.data;
+            $.each(result, function(i, item) {
+                events.push({
+                    id: result[i].id,
+                    event_name: result[i].event_name,
+                    priest: result[i].priest,
+                    client_name: result[i].client_name,
+                    address: result[i].address,
+                    date: result[i].date,
+                    time: result[i].time
+                });
+            })
+            var calendar = $('#calendar').fullCalendar({
+                defaultView: 'month',
+                initialView: 'dayGridMonth',
+                timeZone: 'local',
+                // editable: true,
+                selectable: true,
+                selectHelper: true,
+                selectAllow: function(selectInfo) {
+                    var selectedStartDate = selectInfo.start;
+                    var today = moment().startOf('day');
+                    if (selectedStartDate.isSameOrBefore(today, 'day')) {
+                        return false;
+                    }
+                    return true;
+                },
+                select: function(start, end, allDay) {
+                    var currentDate = moment(start).format('YYYY-MM-DD');
+                    console.log(currentDate);
+                    var defaultDatetime = currentDate + 'T12:00';
+                    $('#datetime').val(defaultDatetime);
+                    $('#addScheduleModal').modal('show');
+                },
+                events: events,
+                eventRender: function(event, element, view) {
+                    console.log(event);
+                    var eventInfo = $('<div class="event-info"></div>'); // Opening div tag added here
+                    eventInfo.append($('<div class="event-name"/>').text(event.event_name));
+                    eventInfo.append($('<div class="event-time"/>').text(event.time));
+                    element.append(eventInfo);
+                    element.bind('click', function() {
+                        console.log(event.id + ' YAWA');
+                        $("#eventModal").modal('show');
+                        $("#m_event_name").text(event.event_name);
+                        $("#m_pamayanan").text(event.address);
+                        $("#m_date_time").text(event.date + ' ' + event.time);
+                        $("#m_priest").text(event.priest);
+                        $("#m_client_name").text(event.client_name);
+                        $("#sched_id").val(event.id);
+                    });
+                }
+
+            });
+        }, //end success block
+        error: function(xhr, status) {
+            alert(response.msg);
+        }
+    }); //end ajax block
+}
+
+// function save_event() {
+//     var event_name = $("#event_name").val();
+//     var event_start_date = $("#event_start_date").val();
+//     var event_end_date = $("#event_end_date").val();
+//     if (event_name == "" || event_start_date == "" || event_end_date == "") {
+//         alert("Please enter all required details.");
+//         return false;
+//     }
+//     $.ajax({
+//         url: "save_event.php",
+//         type: "POST",
+//         dataType: 'json',
+//         data: {
+//             event_name: event_name,
+//             event_start_date: event_start_date,
+//             event_end_date: event_end_date
+//         },
+//         success: function(response) {
+//             $('#event_entry_modal').modal('hide');
+//             if (response.status == true) {
+//                 alert(response.msg);
+//                 location.reload();
+//             } else {
+//                 alert(response.msg);
+//             }
+//         },
+//         error: function(xhr, status) {
+//             console.log('ajax error = ' + xhr.statusText);
+//             alert(response.msg);
+//         }
+//     });
+//     return false;
+// }
 </script>
-
-
-</html>

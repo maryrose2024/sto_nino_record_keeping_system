@@ -20,4 +20,3 @@ if (isset($_POST['sched_id'])) {
     echo "<script>alert('Schedule ID not provided');
     window.location.href='schedules.php';</script>";
 }
-

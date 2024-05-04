@@ -31,11 +31,11 @@
                 <!-- Main Content -->
                 <div class="col-12 col-xl-12">
                     <div class="col mt-4">
-                        <h1 class="mb-2 text-uppercase fw-bolder">Profile</h1>
+                        <h1 class="mb-4 text-uppercase fw-bolder">Profile</h1>
                         <hr>
 
 
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col">
                                 <div class="table-responsive">
                                     <table style="background-color: white;" class="table table-bordered">
