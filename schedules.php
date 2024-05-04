@@ -27,7 +27,7 @@
                     <?php
                         function fetchData($conn, $table)
                         {
-                            $query = "SELECT * FROM $table";
+                            $query = "SELECT * FROM $table ORDER BY timestamp DESC";
                             $result = $conn->query($query);
                             $data = array();
                             while ($row = $result->fetch_assoc()) {
