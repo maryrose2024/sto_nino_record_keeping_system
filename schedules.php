@@ -80,8 +80,12 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $rowNumber; ?></td>
+                                        <?php
+                                            $date = strtotime($sched['date']);
+                                            $formatted_date = date("D, M d, Y", $date);
+                                        ?>
                                         <td>
-                                            <span class="fs-5 fw-bold"><?php echo $sched['date']; ?></span><br>
+                                            <span class="fs-5 fw-bold"><?php echo $formatted_date; ?></span><br>
                                             <span class="fs-6"><?php echo $sched['time']; ?></span>
                                         </td>
                                         <td>
