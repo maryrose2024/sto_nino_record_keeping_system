@@ -83,8 +83,6 @@ if (isset($_GET['id'])) {
                                     <div>
                             </strong>
                             <a href="baptism.php" class="btn btn-primary">Back</a>
-                            <button type="button" class="btn btn-secondary"
-                                onclick="generatePDF(<?php echo $baptismRecord['id']; ?>)">Print</button>
                         </div>
                     </div>
                     <div class="card-body">

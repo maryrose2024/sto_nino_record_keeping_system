@@ -5,90 +5,13 @@ include('auth_guard.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
 
-
-
-
 ?>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-   
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 large">Mary Rose</span>
-                                <img class="img-profile rounded-circle mr-2"
-                                    src="img/logo.png">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="profile.php" class="active">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                                    Profile
-                                </a>
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
+                <?php include 'header_nav.php'; ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -97,14 +20,10 @@ include('includes/navbar.php');
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h1 mb-0 text-gray-600 fw-bolder">DASHBOARD</h1>
-
-          
                     </div>
-
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Schedule -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -113,7 +32,9 @@ include('includes/navbar.php');
                                             <a href="schedules.php" class="active">
                                             
                                             <div class="h5 text-large font-weight-bold text-primary text-uppercase mb-3">Schedule</div></a>
-                                            <div class="h4 mb-0 font-weight-bold text-gray-600">10</div>
+                                            <div class="h4 mb-0 font-weight-bold text-gray-600">
+                                                <p id="total_sched_val"></p>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="far fa-calendar-alt fa-3x text-gray-400"></i>
@@ -123,7 +44,7 @@ include('includes/navbar.php');
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Sacraments -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
@@ -141,7 +62,7 @@ include('includes/navbar.php');
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Donation -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
@@ -149,7 +70,9 @@ include('includes/navbar.php');
                                         <div class="col mr-2">
                                             <a href="donation.php" class="active">
                                             <div class="h5 text-large font-weight-bold text-info text-uppercase mb-3">Donation </div></a>
-                                            <div class="h4 mb-0 font-weight-bold text-gray-600">₱215,000</div>
+                                            <div class="h4 mb-0 font-weight-bold text-gray-600">
+                                                <p id="total_payments_val"></p>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                         <i class="fas fa-coins fa-3x text-gray-400"></i>
@@ -167,7 +90,9 @@ include('includes/navbar.php');
                                         <div class="col mr-2">
                                             <a href="account.php" class="active">
                                             <div class="h5 text-large font-weight-bold text-warning text-uppercase mb-3"> Admin Account</div></a>
-                                            <div class="h4 mb-0 font-weight-bold text-gray-600">3</div>
+                                            <div class="h4 mb-0 font-weight-bold text-gray-600">
+                                                <p id="total_admin_accounts"></p>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                         <i class="fas fa-user-alt fa-3x text-gray-400"></i>
@@ -178,8 +103,6 @@ include('includes/navbar.php');
                             </div>
                         </div>
                     </div>
-
-                    
 
                     <!-- Content Row -->
 
@@ -264,18 +187,89 @@ include('includes/navbar.php');
                             </div>
                         </div>
                     </div>
-
-                    
-                            
-
-         
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
+            
 
     <?php
     include('includes/scripts.php');
     include('includes/footer.php');
     ?>
+
+    <script>
+        $(document).ready(function(){
+            function getTotalSchedules() {
+                $.ajax({
+                    url: 'dashboard_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'get_total_schedules'
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        if (response.status === 'success') {
+                            $('#total_sched_val').text(response.total_schedules);
+                        } else {
+                            $('#total_sched_val').text('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error: ' + error);
+                    }
+                });
+            }
+            function getTotalPayments() {
+                $.ajax({
+                    url: 'dashboard_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'get_total_payments'
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        if (response.status === 'success') {
+                            var totalPayments = parseFloat(response.total_payments);
+                            var formattedPayments = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(totalPayments);
+
+                            $('#total_payments_val').text(formattedPayments);
+                        } else {
+                            $('#total_payments_val').text('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error: ' + error);
+                    }
+                });
+            }
+            function getTotalAdminAccounts() {
+                $.ajax({
+                    url: 'dashboard_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'get_total_admin_accounts'
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        if (response.status === 'success') {
+                            $('#total_admin_accounts').text(response.total_admin_accounts);
+                        } else {
+                            $('#total_admin_accounts').text('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error: ' + error);
+                    }
+                });
+            }
+
+            getTotalSchedules();
+            getTotalPayments();
+            getTotalAdminAccounts();
+
+        });
+    </script>
