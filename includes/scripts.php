@@ -12,9 +12,9 @@
    <script src="vendor/chart.js/Chart.min.js"></script>
 
    <!-- Page level custom scripts -->
-   <script src="js/demo/chart-area-demo.js"></script>
+   <!-- <script src="js/demo/chart-area-demo.js"></script>
    <script src="js/demo/chart-pie-demo.js"></script>
-   <script src="js/demo/chart-bar-demo.js"></script>
+   <script src="js/demo/chart-bar-demo.js"></script> -->
 
    <!-- Custom fonts for this template-->
    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

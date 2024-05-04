@@ -107,7 +107,6 @@ include('includes/navbar.php');
                     <!-- Content Row -->
 
                     <div class="row">
-
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
@@ -192,7 +191,6 @@ include('includes/navbar.php');
             <!-- End of Main Content -->
 
             
-
     <?php
     include('includes/scripts.php');
     include('includes/footer.php');
